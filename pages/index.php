@@ -1,9 +1,23 @@
 <?php
 session_start();
-if(!isset($_SESSION['valid'])){
+if (!isset($_SESSION['valid'])) {
     header("Location: ../pages/login.php");
-  }
+}
 include '../inc/headerStart.php';
+
+$id = $_SESSION['id'];
+
+$sql1 = "SELECT sum(salary) as salary, sum(loan) as loan, sum(bonus) as bonus FROM salary WHERE employee_id = '$id'";
+$exec1 = mysqli_query($conn, $sql1);
+$salary = mysqli_fetch_array($exec1);
+
+$sql2 = "SELECT sum(salary) as totalSalary,sum(loan) as totalLoan, sum(bonus) as totalBonus FROM salary";
+$exec2 = mysqli_query($conn, $sql2);
+$totalSalary = mysqli_fetch_array($exec2);
+
+$sql3 = "SELECT count(employee_id) as numberOfEmployees FROM employee";
+$exec3 = mysqli_query($conn, $sql3);
+$numberOfEmployees = mysqli_fetch_array($exec3);
 
 ?>
 
@@ -23,39 +37,87 @@ include '../inc/headerStart.php';
         </nav>
     </div>
     <div class="row">
-        <div class="col-md-4 stretch-card grid-margin">
+
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] == 'hr' ? 'style="display: none"' : "" ?>>
             <div class="card bg-gradient-danger card-img-holder text-white">
                 <div class="card-body">
                     <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-end"></i>
+                    <h4 class="font-weight-normal mb-3">Total Salary Amount <i class="fa fa-money mdi-24px float-end"></i>
                     </h4>
-                    <h2 class="mb-5">$ 15,0000</h2>
-                    <h6 class="card-text">Increased by 60%</h6>
+                    <h2 class="mb-5">GHc <?php echo $totalSalary['totalSalary'] ?></h2>
+                    <h6 class="card-text">Total Salary</h6>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 stretch-card grid-margin">
-            <div class="card bg-gradient-info card-img-holder text-white">
-                <div class="card-body">
-                    <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Orders <i class="mdi mdi-bookmark-outline mdi-24px float-end"></i>
-                    </h4>
-                    <h2 class="mb-5">45,6334</h2>
-                    <h6 class="card-text">Decreased by 10%</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 stretch-card grid-margin">
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] == 'hr' ? 'style="display: none"' : "" ?>>
             <div class="card bg-gradient-success card-img-holder text-white">
                 <div class="card-body">
                     <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Visitors Online <i class="mdi mdi-diamond mdi-24px float-end"></i>
+                    <h4 class="font-weight-normal mb-3">Total Loan Amount <i class="fa fa-money mdi-24px float-end"></i>
                     </h4>
-                    <h2 class="mb-5">95,5741</h2>
-                    <h6 class="card-text">Increased by 5%</h6>
+                    <h2 class="mb-5">GHc <?php echo $totalSalary['totalLoan'] ?></h2>
+                    <h6 class="card-text">Total Loan</h6>
                 </div>
             </div>
         </div>
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] == 'hr' ? 'style="display: none"' : "" ?>>
+            <div class="card bg-gradient-warning card-img-holder text-white">
+                <div class="card-body">
+                    <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Total Bonus Amount <i class="fa fa-money mdi-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5">GHc <?php echo $totalSalary['totalBonus'] ?></h2>
+                    <h6 class="card-text">Total Bonus</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] == 'hr' ? 'style="display: none"' : "" ?>>
+            <div class="card bg-gradient-info card-img-holder text-white">
+                <div class="card-body">
+                    <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">Number Of Employees<i class="fa fa-users mdi-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5"><?php echo $numberOfEmployees['numberOfEmployees'] ?></h2>
+                    <h6 class="card-text">Number Of Employees</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'employee' && $_SESSION['role'] != 'department' && $_SESSION['role'] != 'hr'  ? 'style="display: none"' : "" ?>>
+            <div class="card bg-gradient-warning card-img-holder text-white">
+                <div class="card-body">
+                    <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">My Salary<i class="fa fa-money mdi-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5">GHc <?php echo $salary['salary'] ?></h2>
+                    <h6 class="card-text">Salary</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'employee' && $_SESSION['role'] != 'department' && $_SESSION['role'] != 'hr'  ? 'style="display: none"' : "" ?>>
+            <div class="card bg-gradient-dark card-img-holder text-white">
+                <div class="card-body">
+                    <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">My Bonuses<i class="fa fa-money mdi-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5">GHc <?php echo $salary['bonus'] ?></h2>
+                    <h6 class="card-text">Total Bonuses</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin" <?php echo $_SESSION['role'] != 'employee' && $_SESSION['role'] != 'department' && $_SESSION['role'] != 'hr'  ? 'style="display: none"' : "" ?>>
+            <div class="card bg-gradient-primary card-img-holder text-white">
+                <div class="card-body">
+                    <img src="../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                    <h4 class="font-weight-normal mb-3">My Loan<i class="fa fa-money mdi-24px float-end"></i>
+                    </h4>
+                    <h2 class="mb-5">GHc <?php echo $salary['loan'] ?></h2>
+                    <h6 class="card-text">Total Loan</h6>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
     <div class="row">
         <div class="col-md-7 grid-margin stretch-card">
