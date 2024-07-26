@@ -70,13 +70,13 @@ if (isset($_POST['addVacation'])) {
                                     <input type="text" class="form-control " id="vacationTitle" name="vacationTitle" placeholder="Enter vacation's title" required>
                                 </div>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" <?php echo $_SESSION['role'] == 'employee' ? 'style="display: none"' : "" ?>>
                                 <div class="form-group">
                                     <label for="exampleSelectGender">Employee's Username</label>
                                     <select class="form-select" id="exampleSelectGender" name="vacationEmployeeID">
                                         <option value="">Select ..</option>
                                         <?php foreach ($allEmployees as $employ) : ?>
-                                            <option class="dropdown-item" value='<?php echo $employ['employee_id']; ?>'>
+                                            <option class="dropdown-item" value='<?php echo $_SESSION['role'] == 'employee' ? $_SESSION['id'] : $employ['employee_id']; ?>'>
                                                 <?php echo $employ['employee_username']; ?>
                                             </option>
                                         <?php endforeach ?>

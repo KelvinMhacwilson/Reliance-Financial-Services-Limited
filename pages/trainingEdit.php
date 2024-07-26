@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['valid'])){
     header("Location: ../pages/login.php");
   }
+  if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 $sql = "SELECT employee_id, employee_username FROM employee;";
@@ -51,7 +54,7 @@ if (!isset($_GET['edit'])) {
 }
 
 if (isset($_POST['editTraining'])) {
-    (empty($tName) || empty($tYear) || empty($teID) || empty($tType)) ?  $errMsg = "All Fields Are Required Execpt Description and Registration" : $errMsg = '';
+    (empty($tName) || empty($tYear) || empty($tType)) ?  $errMsg = "All Fields Are Required Execpt Description and Registration" : $errMsg = '';
 
     //updating data
 

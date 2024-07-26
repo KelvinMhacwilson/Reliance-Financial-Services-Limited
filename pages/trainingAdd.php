@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['valid'])){
     header("Location: ../pages/login.php");
   }
+  if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 $sql = "SELECT employee_id, employee_username FROM employee;";
@@ -19,7 +22,7 @@ $errMsg = "";
 $msg = "";
 
 if (isset($_POST['addTraining'])) {
-    (empty($tName) || empty($tYear) || empty($teID) || empty($tType)) ?  $errMsg = "All Fields Are Required Execpt Description And Registration" : $errMsg = '';
+    (empty($tName) || empty($tYear) || empty($tType)) ?  $errMsg = "All Fields Are Required Execpt Description, Employee And Registration" : $errMsg = '';
 
     //adding data to database
     $sql1 = "INSERT INTO trainings (training_name, training_description , training_employee_id, training_registration, training_type, training_year)
@@ -80,8 +83,8 @@ if (isset($_POST['addTraining'])) {
                             </div>
                             <div class="col-md-11">
                                 <div class="form-group">
-                                    <label for="exampleSelectGender">Employee's Username<span class="text-danger">*</span></label>
-                                    <select class="form-select" id="exampleSelectGender" name="trainingEmployeeID" required>
+                                    <label for="exampleSelectGender">Employee's Username</label>
+                                    <select class="form-select" id="exampleSelectGender" name="trainingEmployeeID">
                                         <option value="">Select ..</option>
                                         <?php foreach ($allEmployees as $employ) : ?>
                                             <option class="dropdown-item" value='<?php echo $employ['employee_id']; ?>'>

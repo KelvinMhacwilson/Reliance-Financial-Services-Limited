@@ -1,8 +1,11 @@
 <?php
 session_start();
-if(!isset($_SESSION['valid'])){
+if (!isset($_SESSION['valid'])) {
     header("Location: ../pages/login.php");
-  }
+}
+if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 
@@ -18,8 +21,6 @@ if (mysqli_query($conn, $sql)) {
     $_SESSION['status'] = $status;
     $_SESSION['msg'] = $msg;
     echo '<script> location.replace("departmentListAdd.php"); </script>';
-
-    
 } else {
     $msg = 'Record Not Deleted';
     $status = 'danger';

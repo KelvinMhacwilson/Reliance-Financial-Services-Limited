@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['valid'])){
     header("Location: ../pages/login.php");
   }
+  if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 $sql = "SELECT s.id, s.bonus, s.salary, s.loan, s.last_update, s.employee_id, s.salary_type,

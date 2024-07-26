@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['valid'])){
     header("Location: ../pages/login.php");
   }
+  if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 $sql = "SELECT employee_id, employee_username FROM employee;";
@@ -112,7 +115,7 @@ if (isset($_POST['editEvaluation'])) {
                             </div>
                             <div class="col-md-11">
                                 <div class="form-group">
-                                    <label for="eValue">Evaluation Value<span class="text-danger">*</span></label>
+                                    <label for="eValue">Evaluation Value(%)<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="eValue" name="evalValue" placeholder="Enter evaluation value" maxlength="5" min="0" max="100" step="0.01" value="<?php echo $eval['eval_value']?>" required>
                                 </div>
                             </div>

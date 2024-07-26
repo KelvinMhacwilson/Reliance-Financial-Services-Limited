@@ -20,13 +20,13 @@
                 <i class="mdi mdi-home menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'style="display: none"' : "" ?>>
             <a class="nav-link" href="../pages/departmentListAdd.php">
                 <span class="menu-title">Departments</span>
                 <i class="fa fa-building menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'style="display: none"' : "" ?>>
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Employees</span>
                 <i class="menu-arrow"></i>
@@ -43,7 +43,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'style="display: none"' : "" ?>>
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-tbasic" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Trainings</span>
                 <i class="menu-arrow"></i>
@@ -83,8 +83,8 @@
             </a>
             <div class="collapse" id="forms">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/attendanceList.php">All Attendance</a>
+                    <li class="nav-item" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'style="display: none"' : "" ?>>
+                        <a class="nav-link" href="../pages/attendanceList.php" >All Attendance</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../pages/attendanceAdd.php">Add Attendance</a>
@@ -108,7 +108,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'style="display: none"' : "" ?>>
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <span class="menu-title">Salaries</span>
                 <i class="menu-arrow"></i>

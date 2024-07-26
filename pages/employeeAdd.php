@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['valid'])){
     header("Location: ../pages/login.php");
   }
+  if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 $eName = FILTER_INPUT(INPUT_POST, 'employeeName', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -151,10 +154,10 @@ if (isset($_POST['addEmployee'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" <?php echo $_SESSION['role'] != 'admin' ? 'style="display: none"' : "" ?>>
                                 <div class="form-group">
                                     <label for="exampleSelectGender">Role</label>
-                                    <select class="form-select" id="exampleSelectGender" name="employeeRole" required>
+                                    <select class="form-select" id="exampleSelectGender" name="employeeRole" required <?php echo $_SESSION['role'] != 'admin' ? 'disabled' : "" ?>>
                                         <option value="admin">Administrator</option>
                                         <option value="department">Department Manager</option>
                                         <option value="hr">HR Manager</option>
@@ -162,7 +165,7 @@ if (isset($_POST['addEmployee'])) {
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" >
                                 <div class="form-group">
                                     <label>Authorization</label>
                                     <div class="my-2 ">

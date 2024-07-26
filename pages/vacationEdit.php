@@ -135,10 +135,10 @@ if (isset($_POST['editVacation'])) {
                                     <input type="date" class="form-control" id="vacationToDate" name="vacationToDate" placeholder="Enter the date vacation ends" value="<?php echo $vac['vacation_to_date']?>" required>
                                 </div>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'style="display: none"' : "" ?>>
                                 <div class="form-group">
                                     <label for="exampleSelectGender">Vacation Status</label>
-                                    <select class="form-select" id="exampleSelectGender" name="vacationStatus" required>
+                                    <select class="form-select" id="exampleSelectGender" name="vacationStatus" required <?php echo $_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr' ? 'disabled' : "" ?>>
                                         <option value="accepted" <?php echo $vac['vacation_status'] == 'accepted' ? 'selected="selected"' : ""; ?>>Accept</option>
                                         <option value="denied" <?php echo $vac['vacation_status'] == 'denied' ? 'selected="selected"' : ""; ?>>Denied</option>
                                         <option value="waiting" <?php echo $vac['vacation_status'] == 'waiting' ? 'selected="selected"' : ""; ?>>Waiting</option>

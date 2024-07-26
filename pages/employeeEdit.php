@@ -3,6 +3,9 @@ session_start();
 if(!isset($_SESSION['valid'])){
     header("Location: ../pages/login.php");
   }
+  if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'hr') {
+    header("Location: ../pages/index.php");
+}
 include '../inc/headerStart.php';
 
 if (isset($_GET['edit'])) {
@@ -177,14 +180,14 @@ if (isset($_POST['editEmployee'])) {
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">+233</span>
                                         </div>
-                                        <input type="number" class="form-control " id="employeeMobile" name="employeeMobile" placeholder="Enter employee's mobile" maxlength="9" value="<?php echo $employ['employee_mobile'] ?>" required>
+                                        <input type="number" class="form-control" dis id="employeeMobile" name="employeeMobile" placeholder="Enter employee's mobile" maxlength="9" value="<?php echo $employ['employee_mobile'] ?>" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" <?php echo $_SESSION['role'] != 'admin' ? 'style="display: none"' : "" ?>>
                                 <div class="form-group">
                                     <label for="exampleSelectGender">Role</label>
-                                    <select class="form-select" id="exampleSelectGender" name="employeeRole" required>
+                                    <select class="form-select" id="exampleSelectGender" name="employeeRole" required <?php echo $_SESSION['role'] != 'admin' ? 'disabled"' : "" ?>>
                                         <option value="admin">Administrator</option>
                                         <option value="department" <?php echo $employ['role'] == 'department' ? 'selected="selected"' : ""; ?>>Department Manager</option>
                                         <option value="hr" <?php echo $employ['role'] == 'hr' ? 'selected="selected"' : ""; ?>>HR Manager</option>

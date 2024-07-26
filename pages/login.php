@@ -20,7 +20,7 @@ if (isset($_POST['login'])) {
     $row = mysqli_fetch_assoc($result);
 
 
-    if (is_array($row) && !empty($row)) {
+    if (is_array($row) && !empty($row) && $row['authorized'] == 'valid') {
       $_SESSION['valid'] = $row['employee_username'];
       $_SESSION['email'] = $row['employee_email'];
       $_SESSION['id'] = $row['employee_id'];
@@ -28,7 +28,12 @@ if (isset($_POST['login'])) {
       $_SESSION['name'] = $row['employee_name'];
       $_SESSION['authorized'] = $row['authorized'];
     } else {
-      $errMsg = "Username or Password is incorrect.";
+      if ($row['authorized'] == 'invalid') {
+        $errMsg = "Your account has been blocked by the administrator. See the administrator for futher details.";
+      }
+      else{
+        $errMsg = "Username or Password is incorrect.";
+      }
     }
     session_regenerate_id(true);
     if (isset($_SESSION['valid'])) {
